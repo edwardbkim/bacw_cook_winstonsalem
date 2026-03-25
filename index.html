@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cook Medical Workforce Analysis: Winston-Salem, NC</title>
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --panel:#f7f9fc;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --line:#e2e8f0;
+      --accent:#2563eb;
+      --warn:#b45309;
+      --good:#15803d;
+      --soft:#f3f7ff;
+      --shadow: 0 1px 0 rgba(15,23,42,.03);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#ffffff 0%, #fbfcff 55%, #ffffff 100%);
+      color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+
+    header{
+      padding:22px 0 14px;
+      border-bottom:1px solid var(--line);
+      background:rgba(255,255,255,.92);
+      position:sticky; top:0; backdrop-filter: blur(6px);
+      z-index:10;
+    }
+    h1{margin:0 0 6px;font-size:26px;letter-spacing:.2px}
+    .sub{color:var(--muted); line-height:1.5; font-size:13.5px}
+
+    .tagrow{display:flex; flex-wrap:wrap; gap:10px; margin-top:10px}
+    .tag{
+      border:1px solid var(--line);
+      color:var(--muted);
+      background:var(--panel);
+      padding:6px 10px; border-radius:999px; font-size:12px;
+    }
+
+    .nav{
+      margin-top:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+    .nav a{
+      font-size:12.5px;
+      color:var(--muted);
+      border:1px solid var(--line);
+      background:#fff;
+      padding:6px 10px;
+      border-radius:999px;
+    }
+    .nav a:hover{border-color:rgba(37,99,235,.35); color:var(--text); text-decoration:none}
+
+    main{padding:20px 0 44px}
+    .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap:14px}
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:16px;
+      box-shadow: var(--shadow);
+    }
+    .kpi{grid-column:span 3}
+    .kpi h3{margin:0 0 8px; font-size:12px; color:var(--muted); font-weight:650; letter-spacing:.2px}
+    .kpi .val{font-size:22px; font-weight:800}
+    .kpi .note{margin-top:6px; font-size:12px; color:var(--muted); line-height:1.35}
+
+    .half{grid-column:span 6}
+    .full{grid-column:span 12}
+
+    h2{margin:0 0 10px; font-size:15px; letter-spacing:.2px}
+    p{margin:0; color:var(--muted); line-height:1.55; font-size:13.5px}
+    ul{margin:10px 0 0 18px; color:var(--muted); line-height:1.55; font-size:13.5px}
+    li{margin:6px 0}
+    .hr{height:1px;background:var(--line); margin:10px 0 14px}
+
+    .callout{
+      border-left:4px solid var(--accent);
+      padding:10px 12px;
+      background: var(--soft);
+      border-radius:12px;
+      color:var(--text);
+    }
+    .callout strong{color:var(--text)}
+
+    .cols{display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:10px}
+    .mini{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px;
+    }
+    .mini h3{margin:0 0 8px; font-size:13px; color:var(--text)}
+
+    .badge{
+      display:inline-block;
+      font-size:12px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:#ffffff;
+      color:var(--muted);
+      margin-right:8px;
+      margin-top:8px;
+    }
+    .badge.good{border-color:#bbf7d0; background:#f0fdf4; color:var(--good)}
+    .badge.warn{border-color:#fed7aa; background:#fff7ed; color:var(--warn)}
+
+    table{width:100%; border-collapse:collapse; font-size:13px}
+    th, td{padding:10px 10px; border-bottom:1px solid var(--line); vertical-align:top}
+    th{color:var(--muted); text-align:left; font-weight:700; background:#fbfdff}
+    .small{font-size:12px; color:var(--muted)}
+    .right{text-align:right}
+
+    .embedWrap{
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;
+      background:#fff;
+    }
+    .ratio{
+      position:relative;
+      width:100%;
+      padding-top:56.25%;
+      background:#fff;
+    }
+    .ratio iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
+    .embedBar{
+      display:flex;
+      gap:10px;
+      justify-content:space-between;
+      align-items:center;
+      padding:10px 12px;
+      background:var(--panel);
+      border-top:1px solid var(--line);
+      flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:12.5px;
+      padding:7px 10px;
+      border-radius:10px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--text);
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{border-color:rgba(37,99,235,.35)}
+    .btn a{color:inherit; text-decoration:none}
+
+    .fallback{
+      display:none;
+      padding:12px;
+      background:#fff7ed;
+      border-top:1px solid #fed7aa;
+      color:#7c2d12;
+      font-size:12.5px;
+      line-height:1.45;
+    }
+
+    footer{
+      padding:22px 0 34px;
+      border-top:1px solid var(--line);
+      background:#ffffff;
+    }
+    .src ol{margin:10px 0 0 18px; color:var(--muted); line-height:1.65; font-size:13px}
+
+    #sources { scroll-margin-top: 110px; }
+
+    @media (max-width:980px){
+      .kpi{grid-column:span 6}
+      .half{grid-column:span 12}
+      .cols{grid-template-columns:1fr}
+      header{position:relative}
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="wrap">
+    <h1>Winston-Salem, NC: Labor Market Diagnosis (Cook Medical Workforce Analysis)</h1>
+
+    <div class="sub">
+      <strong>Objective:</strong> provide actionable insight on labor availability, wage competitiveness, and workforce risks for minimum-skills / hourly manufacturing roles using public and team-collected data.
+      <br/>
+      <strong>Labor market definition:</strong> Winston-Salem, NC MSA for external labor market conditions. This reflects the broader labor shed supplying Cook’s Winston-Salem-area operations.
+      <br/>
+      <strong>Timing note:</strong> This diagnosis combines <em>structural</em> (OEWS wages, housing) + <em>cyclical</em> (unemployment) + <em>near-term</em> (postings) indicators; each section lists its period.
+    </div>
+
+    <div class="tagrow">
+      <span class="tag">Prepared for Stephanie L.</span>
+      <span class="tag">OEWS wage year: May 2024</span>
+      <span class="tag">Unemployment window: Oct 2024–Sep 2025</span>
+      <span class="tag">ACS housing estimates: 2020–2024</span>
+      <span class="tag">Postings snapshot: Feb 20, 2026</span>
+    </div>
+
+    <div class="nav" aria-label="Page navigation">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#summary">Executive Summary</a>
+      <a href="#benchmarks">Role Basket</a>
+      <a href="#housing">Housing</a>
+      <a href="#postings">Postings</a>
+      <a href="#competition">Competition</a>
+      <a href="#recs">Recommendations</a>
+      <a href="#sources">Sources</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap grid">
+
+    <!-- POWERBI DASHBOARD -->
+    <div class="card full" id="dashboard">
+      <h2>Power BI Dashboard (Winston-Salem MSA)</h2>
+      <p class="small">
+        Interactive dashboard for executive review. Use slicers to inspect wages, supply, hiring pressure, housing affordability, and employer competition.
+      </p>
+      <div class="hr"></div>
+
+      <div class="embedWrap">
+        <div class="ratio">
+          <iframe
+            id="pbiFrame"
+            title="cook_workforce_winston_salem"
+            src="WINSTON_POWERBI_EMBED_URL"
+            frameborder="0"
+            allowfullscreen="true">
+          </iframe>
+        </div>
+
+        <div class="embedBar">
+          <span class="small">
+            If the dashboard doesn’t load, your browser or network may be blocking third-party iframes. Use “Open in new tab.”
+          </span>
+
+          <span style="display:flex; gap:10px; flex-wrap:wrap;">
+            <span class="btn" id="btnFullscreen" title="Request fullscreen for the embed">Fullscreen</span>
+            <span class="btn">
+              <a href="WINSTON_POWERBI_EMBED_URL" target="_blank" rel="noopener" title="Open the report in a new tab">
+                Open in new tab
+              </a>
+            </span>
+            <span class="btn" id="btnSources" title="Jump to methodology and sources">Method & sources</span>
+          </span>
+        </div>
+
+        <div class="fallback" id="embedFallback">
+          <strong>Embed blocked.</strong> If you’re viewing this page inside a restricted environment, the Power BI iframe may be disabled.
+          Use the direct report link instead.
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI STRIP -->
+    <div class="card kpi">
+      <h3>Unemployment (12-mo avg)</h3>
+      <div class="val">3.69%</div>
+      <div class="note">Oct 2024–Sep 2025. Moderately tight labor market</div>
+    </div>
+
+    <div class="card kpi">
+      <h3>Assembler median wage</h3>
+      <div class="val">$19.08/hr</div>
+      <div class="note">Core entry production benchmark</div>
+    </div>
+
+    <div class="card kpi">
+      <h3>Production mean wage</h3>
+      <div class="val">$22.17/hr</div>
+      <div class="note">Production occupations, May 2024 OEWS</div>
+    </div>
+
+    <div class="card kpi">
+      <h3>Rent affordability wage</h3>
+      <div class="val">$20.90/hr</div>
+      <div class="note">30% rule; single FT earner; ACS 2020–2024</div>
+    </div>
+
+    <!-- EXEC SUMMARY -->
+    <div class="card full" id="summary">
+      <h2>Executive Summary (What the market is doing to Cook)</h2>
+      <div class="callout">
+        <p>
+          Winston-Salem is a <strong>broader and more scalable labor market</strong> than Bloomington, with a deeper production base and slightly less housing-driven pressure on entry-level wages. However, the market remains competitive in the core <strong>$18–$22/hour band</strong>, where manufacturing and logistics-adjacent employers actively compete for similar talent pools.
+        </p>
+      </div>
+
+      <div class="hr"></div>
+      <span class="badge warn"><strong>Risk:</strong> production and warehouse demand compete in the same hourly band</span>
+      <span class="badge warn"><strong>Risk:</strong> skilled bottlenecks likely remain in maintenance, machining, and QA</span>
+      <span class="badge good"><strong>Opportunity:</strong> broader labor shed improves recruiting flexibility</span>
+      <span class="badge good"><strong>Opportunity:</strong> differentiation may matter more than wage escalation alone</span>
+
+      <ul>
+        <li><strong>Primary challenge:</strong> Winston-Salem appears to be a <strong>competition-driven market</strong>, not a scarcity-driven one.</li>
+        <li><strong>Strategic implication:</strong> Cook’s edge will likely come from hiring speed, employer positioning, and visible career pathways rather than pure wage leadership.</li>
+        <li><strong>Contrast with Bloomington:</strong> Bloomington is tighter and more specialized; Winston-Salem is deeper and more scalable, but still highly competitive.</li>
+      </ul>
+    </div>
+
+    <!-- ROLE BASKET -->
+    <div class="card full" id="benchmarks">
+      <h2>Role-Basket Benchmarks (Winston-Salem MSA, May 2024 OEWS)</h2>
+      <p class="small">
+        LQ &gt; 1 indicates the occupation is more concentrated locally than the national average. Use this section to surface the same role basket as Bloomington so the comparison remains fully replicable.
+      </p>
+      <div class="hr"></div>
+      <p class="small"><em>Paste your Winston-Salem OEWS role-basket table here from the fact table export.</em></p>
+      <div class="hr"></div>
+      <ul>
+        <li><strong>Assembler benchmark:</strong> median wage is close to the local rent affordability threshold, suggesting moderate retention pressure.</li>
+        <li><strong>Skilled bottlenecks:</strong> maintenance, machining, and QA roles should remain on the watch list as higher-skill, higher-impact occupations.</li>
+        <li><strong>Production depth:</strong> Winston-Salem supports a broader blue-collar labor pool than Bloomington, which supports recruiting scale but not necessarily easy differentiation.</li>
+      </ul>
+    </div>
+
+    <!-- HOUSING -->
+    <div class="card half" id="housing">
+      <h2>Housing Band Insights (Moderate Retention Pressure)</h2>
+      <p class="small">
+        Housing in Winston-Salem appears to be a <strong>secondary pressure</strong>, rather than the dominant workforce constraint. Entry-level wages are closer to rent affordability thresholds than in Bloomington, but still tight enough to influence retention decisions at the lower end of the wage band.
+      </p>
+      <div class="hr"></div>
+
+      <div class="mini">
+        <h3>Affordability Method</h3>
+        <p class="small">
+          Assumptions: <strong>40 hrs/week</strong>, <strong>52 weeks/year</strong> (= 2,080 hrs), using the 30% and 35% gross income rules.  
+          Hourly wage = (Monthly housing cost × 12) ÷ (Rule × 2,080).
+        </p>
+      </div>
+
+      <div class="hr"></div>
+      <table>
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th class="right">Rent Wage</th>
+            <th class="right">Mortgage Wage</th>
+            <th>Interpretation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>30% Rule (single earner)</strong></td>
+            <td class="right">$20.90/hr</td>
+            <td class="right">$28.06/hr</td>
+            <td>Conservative affordability benchmark</td>
+          </tr>
+          <tr>
+            <td><strong>35% Rule (single earner)</strong></td>
+            <td class="right">$17.91/hr</td>
+            <td class="right">$24.05/hr</td>
+            <td>Higher burden tolerance</td>
+          </tr>
+          <tr>
+            <td><strong>Dual income (two earners)</strong></td>
+            <td class="right">$10.45/hr each</td>
+            <td class="right">$14.03/hr each</td>
+            <td>Shows how household composition changes affordability</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- WAGE SIGNAL -->
+    <div class="card half">
+      <h2>Wage Positioning (Winston-Salem)</h2>
+      <p class="small">
+        Winston-Salem appears less housing-constrained than Bloomington, but the entry production wage band still overlaps meaningfully with adjacent warehouse and logistics roles. That means Cook may not need to be the wage leader in every role, but it does need to remain competitive and differentiated.
+      </p>
+      <div class="hr"></div>
+      <ul>
+        <li><strong>Assembler median:</strong> ~$19.08/hr</li>
+        <li><strong>Production mean:</strong> ~$22.17/hr</li>
+        <li><strong>Maintenance median:</strong> ~$28.80/hr</li>
+        <li><strong>Machinist median:</strong> ~$27.66/hr</li>
+      </ul>
+      <div class="hr"></div>
+      <p class="small">
+        Strategic takeaway: Winston-Salem is likely a market where Cook competes on <strong>offer quality + differentiation</strong> more than extreme wage scarcity.
+      </p>
+    </div>
+
+    <!-- POSTINGS -->
+    <div class="card full" id="postings">
+      <h2>Active Hiring Pressure (Postings snapshot)</h2>
+      <p class="small">
+        Snapshot date: <strong>Feb 20, 2026</strong>. Radius: <strong>20 miles</strong>. Window: listings within <strong>30 days</strong>.
+        Postings are not hires, but they provide a directional view of near-term competitive recruiting activity.
+      </p>
+      <div class="hr"></div>
+      <p class="small"><em>Paste your Winston-Salem postings table here from the fact table export.</em></p>
+      <div class="hr"></div>
+      <div class="cols">
+        <div class="mini">
+          <h3>Demand Diagnosis</h3>
+          <ul>
+            <li>Demand appears concentrated in <strong>production, warehouse, and logistics-adjacent roles</strong>.</li>
+            <li>The market likely reflects a <strong>horizontal competition structure</strong>, where multiple employers compete in similar wage bands.</li>
+            <li>That favors employer differentiation, pipeline scale, and hiring speed over pure wage escalation.</li>
+          </ul>
+        </div>
+        <div class="mini">
+          <h3>What to Watch</h3>
+          <ul>
+            <li>Warehouse and forklift demand as adjacent labor pressure</li>
+            <li>Observed pay dispersion across production and inspection roles</li>
+            <li>Evidence of med-tech and advanced manufacturing competition in the same wage tier</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPETITIVE LANDSCAPE -->
+    <div class="card full" id="competition">
+      <h2>Competitive Landscape (Med-Tech & Adjacent Employers)</h2>
+      <div class="callout">
+        <p>
+          Winston-Salem operates inside a larger industrial ecosystem where Cook competes not only with traditional manufacturers, but also with logistics, staffing, and adjacent production employers for similar hourly talent.
+        </p>
+      </div>
+      <div class="hr"></div>
+      <ul>
+        <li><strong>Market structure:</strong> the employer base appears fragmented rather than dominated by one competitor.</li>
+        <li><strong>Strategic implication:</strong> Cook’s strongest lever may be differentiation in speed, stability, and visible career pathways rather than wage leadership alone.</li>
+        <li><strong>Next layer:</strong> deepen benchmarking against med-tech employers such as Novo Nordisk, Boston Scientific, and Baxter to identify where Cook can differentiate in benefits, positioning, and progression.</li>
+      </ul>
+    </div>
+
+    <!-- RECOMMENDATIONS -->
+    <div class="card full" id="recs">
+      <h2>Recruitment & Retention Recommendations (Winston-Salem)</h2>
+      <ul>
+        <li><strong>Compete on differentiation, not just wages:</strong> in a fragmented employer market, Cook can win on hiring speed, consistency, and employer brand.</li>
+        <li><strong>Scale recruiting channels:</strong> the larger labor pool supports broader sourcing strategies than Bloomington.</li>
+        <li><strong>Build visible pathways:</strong> formalize progression from assembler → QA → supervisor to strengthen retention.</li>
+        <li><strong>Protect bottlenecks:</strong> maintenance, machining, and QA remain critical-risk occupations despite broader labor availability.</li>
+        <li><strong>Position Cook as a stable med-tech employer:</strong> stability can outperform marginal wage increases when workers face multiple similar alternatives.</li>
+      </ul>
+    </div>
+
+  </div>
+</main>
+
+<footer id="sources">
+  <div class="wrap src">
+    <h2>Sources</h2>
+    <p class="small">
+      This page integrates BLS unemployment data, BLS OEWS wage data, U.S. Census housing indicators, and a team-collected postings snapshot using the same repeatable framework as Bloomington.
+    </p>
+
+    <ol>
+      <li>
+        <strong>BLS: Occupational Employment and Wages in Winston-Salem, NC (May 2024 OEWS)</strong><br/>
+        <a href="https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_winston.htm" target="_blank" rel="noopener">
+          https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_winston.htm
+        </a>
+      </li>
+      <li>
+        <strong>BLS / FRED unemployment series for Winston-Salem MSA</strong><br/>
+        <a href="https://fred.stlouisfed.org/data/WINS137URN" target="_blank" rel="noopener">
+          https://fred.stlouisfed.org/data/WINS137URN
+        </a>
+      </li>
+      <li>
+        <strong>U.S. Census QuickFacts: Winston-Salem city, North Carolina</strong><br/>
+        <a href="https://www.census.gov/quickfacts/fact/table/winstonsalemcitynorthcarolina/PST045224" target="_blank" rel="noopener">
+          https://www.census.gov/quickfacts/fact/table/winstonsalemcitynorthcarolina/PST045224
+        </a>
+      </li>
+      <li>
+        <strong>Job postings snapshot (20-mile radius; listings within 30 days; captured Feb 20, 2026)</strong><br/>
+        <span class="small">Use your team-collected links and examples here once finalized.</span>
+      </li>
+    </ol>
+
+    <div class="hr"></div>
+    <p class="small">
+      Version 0.1 (Winston-Salem draft). Next: finalize Power BI embed + lock comparable fact tables across MSAs.
+    </p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    const frame = document.getElementById('pbiFrame');
+    const fallback = document.getElementById('embedFallback');
+    const btn = document.getElementById('btnFullscreen');
+    const btnSources = document.getElementById('btnSources');
+
+    btn.addEventListener('click', function(){
+      if (!frame) return;
+      const el = frame;
+      const req = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+      if (req) req.call(el);
+    });
+
+    btnSources.addEventListener('click', function(){
+      const target = document.getElementById('sources');
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    let loaded = false;
+    frame.addEventListener('load', function(){ loaded = true; });
+
+    setTimeout(function(){
+      if (!loaded){
+        fallback.style.display = "block";
+      }
+    }, 3500);
+  })();
+</script>
+
+</body>
+</html>
